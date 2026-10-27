@@ -826,3 +826,4 @@ a.stat-link:hover span{color:var(--fg)}
 .channel .ch-ic.ic-tg{background:#229ed9;color:#fff}
 .channel .ch-ic.ic-ig{background:linear-gradient(45deg,#f9a825,#e1306c 55%,#833ab4);color:#fff}
 .channel:has(.ch-ic){justify-content:flex-start}.channel:has(.ch-ic)>span:first-of-type{flex:1}.channel .ch-ic{margin-right:2px}
+.form-err{border:1px solid #e5484d;border-radius:var(--r-sm);padding:14px;font-size:15px;color:var(--fg)}

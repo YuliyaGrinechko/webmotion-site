@@ -31,3 +31,21 @@ jobs:
             --exclude '.git' --exclude '.github' --exclude 'README.md' \
             -e "sshpass -e ssh -p $PORT -o StrictHostKeyChecking=accept-new" \
             ./ "$SSH_USER@$SSH_HOST:$SSH_PATH/"
+
+      - name: Write form config outside web root
+        env:
+          SSHPASS: ${{ secrets.SSH_PASSWORD }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_PORT: ${{ secrets.SSH_PORT }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+          SSH_PATH: ${{ secrets.SSH_PATH }}
+          TG_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT: ${{ secrets.TG_CHAT_ID }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+        run: |
+          esc() { printf '%s' "$1" | sed "s/\\\\/\\\\\\\\/g; s/'/\\\\'/g"; }
+          printf "<?php return ['tg_token'=>'%s','tg_chat'=>'%s','mail_to'=>'%s'];\n" \
+            "$(esc "$TG_TOKEN")" "$(esc "$TG_CHAT")" "$(esc "$MAIL_TO")" > form-config.php
+          PORT="${SSH_PORT:-22}"
+          sshpass -e scp -P "$PORT" -o StrictHostKeyChecking=accept-new form-config.php "$SSH_USER@$SSH_HOST:$(dirname "$SSH_PATH")/form-config.php"
+          rm form-config.php
