@@ -136,3 +136,14 @@
     var all=f.dataset.filter==='all';g.classList.toggle('collapsed',all);box.hidden=!all;sync()})});
   sync();
 })();
+(function(){
+  var nav=document.querySelector('header.nav'),links=nav&&nav.querySelector('.nav-links'),right=nav&&nav.querySelector('.nav-right');if(!links||!right)return;
+  var b=document.createElement('button');b.type='button';b.className='burger';b.setAttribute('aria-label','Menu');b.setAttribute('aria-expanded','false');b.innerHTML='<i></i><i></i><i></i>';
+  right.appendChild(b);
+  var cta=right.querySelector('.btn-primary');if(cta){var c=cta.cloneNode(true);c.classList.remove('btn-sm');c.classList.add('nav-cta-m');links.appendChild(c)}
+  function set(o){nav.classList.toggle('menu-open',o);document.body.classList.toggle('menu-lock',o);b.setAttribute('aria-expanded',o?'true':'false')}
+  b.addEventListener('click',function(){set(!nav.classList.contains('menu-open'))});
+  links.addEventListener('click',function(e){if(e.target.closest('a'))set(false)});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});
+  window.addEventListener('resize',function(){if(window.innerWidth>=1000)set(false)});
+})();
