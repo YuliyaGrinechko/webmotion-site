@@ -783,3 +783,8 @@ video:-webkit-full-screen{object-fit:contain!important;background:#000}
 .member .ph{overflow:hidden}
 .member .ph img{display:block;width:100%;height:100%;object-fit:cover;object-position:center top}
 @media(min-width:700px){.team{grid-template-columns:repeat(auto-fit,minmax(240px,300px));justify-content:start}}
+/* homepage: collapsed work grid */
+.work.collapsed .tile.extra{display:none}
+.work-more{display:flex;justify-content:center;margin-top:28px}
+.work-more[hidden]{display:none}
+.work-more b{color:var(--accent);font-weight:700}

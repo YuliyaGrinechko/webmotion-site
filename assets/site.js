@@ -124,3 +124,15 @@
     a.addEventListener('click',function(){var f=document.querySelector('[data-filter="'+a.dataset.gotoFilter+'"]');if(f)f.click()});
   });
 })();
+(function(){
+  var g=document.getElementById('work-grid'),b=document.querySelector('[data-more]');if(!g||!b)return;
+  var box=b.parentNode,n=b.querySelector('[data-more-n]'),extra=g.querySelectorAll('.tile.extra');
+  var labels={uk:['Показати всі роботи','Згорнути'],en:['Show all work','Show less']};
+  function sync(){var open=!g.classList.contains('collapsed');b.setAttribute('aria-expanded',open?'true':'false');
+    var sp=b.querySelectorAll('span[lang]');sp[0].textContent=labels.uk[open?1:0];sp[1].textContent=labels.en[open?1:0];n.textContent=open?'':'+'+extra.length}
+  b.addEventListener('click',function(){var was=!g.classList.contains('collapsed');g.classList.toggle('collapsed');sync();
+    if(was){var w=document.getElementById('work');if(w)w.scrollIntoView({behavior:'smooth'})}});
+  document.querySelectorAll('[data-filter]').forEach(function(f){f.addEventListener('click',function(){
+    var all=f.dataset.filter==='all';g.classList.toggle('collapsed',all);box.hidden=!all;sync()})});
+  sync();
+})();
