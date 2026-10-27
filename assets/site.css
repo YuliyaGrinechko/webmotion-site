@@ -814,3 +814,15 @@ video:-webkit-full-screen{object-fit:contain!important;background:#000}
 .rating .up-link:hover{color:var(--accent)}
 a.stat-link{text-decoration:none;color:inherit}
 a.stat-link:hover span{color:var(--fg)}
+/* social icons */
+.socials{display:flex;gap:10px;margin-top:22px}
+.socials a{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line-2);color:var(--fg);transition:background .2s,border-color .2s,transform .2s}
+.socials a:hover{background:var(--accent);border-color:var(--accent);color:var(--on-accent);transform:translateY(-2px)}
+.socials svg{width:20px;height:20px}
+.channel .ch-ic{flex:none;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--accent);color:var(--on-accent);margin-right:14px}
+.channel .ch-ic svg{width:21px;height:21px}
+.channel .ch-ic.ic-up{background:#14a800;color:#fff}
+.channel .ch-ic.ic-be{background:#1769ff;color:#fff}
+.channel .ch-ic.ic-tg{background:#229ed9;color:#fff}
+.channel .ch-ic.ic-ig{background:linear-gradient(45deg,#f9a825,#e1306c 55%,#833ab4);color:#fff}
+.channel:has(.ch-ic){justify-content:flex-start}.channel:has(.ch-ic)>span:first-of-type{flex:1}.channel .ch-ic{margin-right:2px}
