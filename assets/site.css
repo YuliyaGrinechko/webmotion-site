@@ -827,3 +827,14 @@ a.stat-link:hover span{color:var(--fg)}
 .channel .ch-ic.ic-ig{background:linear-gradient(45deg,#f9a825,#e1306c 55%,#833ab4);color:#fff}
 .channel:has(.ch-ic){justify-content:flex-start}.channel:has(.ch-ic)>span:first-of-type{flex:1}.channel .ch-ic{margin-right:2px}
 .form-err{border:1px solid #e5484d;border-radius:var(--r-sm);padding:14px;font-size:15px;color:var(--fg)}
+/* mobile: tighter sections, shorter tile copy */
+@media(max-width:759px){
+  section{padding-block:56px}
+  .tile{padding:18px}
+  .tile .tags{top:14px;left:14px;right:14px}
+  .tile .tags span:nth-child(n+3){display:none}
+  .tile p{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:14px}
+  .tile .res{display:none}
+  .tile h3{font-size:20px}
+  .tile p,.tile h3{padding-right:52px}
+}
