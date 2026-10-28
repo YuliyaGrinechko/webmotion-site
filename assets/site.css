@@ -855,3 +855,9 @@ a.stat-link:hover span{color:var(--fg)}
   .rating .up{width:100%}
   .rating .up-link{margin-left:0;width:100%;border:0;padding:0;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px}
 }
+.founder-quote{margin:22px 0 0;padding:4px 0 4px 24px;border-left:3px solid var(--accent)}
+.founder-quote p{margin-top:14px;font-size:clamp(17px,1.5vw,19px);line-height:1.6;color:var(--fg);font-style:italic}
+.founder-quote p:first-child{margin-top:0}
+.founder-quote strong{font-style:normal}
+.founder-quote footer{border:0;padding:0;background:none;margin-top:16px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:14px;color:var(--muted)}
+.founder-quote footer b{color:var(--fg);font-size:15px}
