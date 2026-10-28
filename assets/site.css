@@ -845,3 +845,13 @@ a.stat-link:hover span{color:var(--fg)}
 }
 .work .tile.extra{animation:tileIn .45s ease both}
 @keyframes tileIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@media(max-width:759px){
+  .work .tile.shot-site{aspect-ratio:5/4}
+  .tile.shot-site .tile-bg{object-position:left top}
+  .tile.shot-site p{-webkit-line-clamp:1}
+}
+@media(max-width:759px){
+  .rating{gap:10px;padding:18px}
+  .rating .up{width:100%}
+  .rating .up-link{margin-left:0;width:100%;border:0;padding:0;text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:4px}
+}
