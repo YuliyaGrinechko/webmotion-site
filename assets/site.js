@@ -155,3 +155,22 @@ window.__t0=Date.now();
   document.addEventListener('keydown',function(e){if(e.key==='Escape')set(false)});
   window.addEventListener('resize',function(){if(window.innerWidth>=1000)set(false)});
 })();
+(function(){
+  var L={uk:['Читати повністю','Згорнути'],en:['Read more','Show less']};
+  function lang(){return document.documentElement.getAttribute('data-lang')==='en'?'en':'uk'}
+  var revs=[].slice.call(document.querySelectorAll('.rev'));
+  revs.forEach(function(r){
+    var b=document.createElement('button');b.type='button';b.className='more-rev';b.hidden=true;
+    var who=r.querySelector('.who');r.insertBefore(b,who||null);
+    b.addEventListener('click',function(){r.classList.toggle('open');sync()});
+    r._b=b;
+  });
+  function sync(){var l=lang();revs.forEach(function(r){
+    var t=r.querySelector(l==='en'?'blockquote':'.tr');if(!t)return;
+    var open=r.classList.contains('open');
+    r._b.hidden=!open&&t.scrollHeight<=t.clientHeight+2;
+    r._b.textContent=L[l][open?1:0];
+  })}
+  document.querySelectorAll('[data-set-lang]').forEach(function(b){b.addEventListener('click',function(){setTimeout(sync,0)})});
+  window.addEventListener('resize',sync);window.addEventListener('load',sync);sync();
+})();

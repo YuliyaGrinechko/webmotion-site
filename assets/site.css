@@ -861,3 +861,13 @@ a.stat-link:hover span{color:var(--fg)}
 .founder-quote strong{font-style:normal}
 .founder-quote footer{border:0;padding:0;background:none;margin-top:16px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;font-size:14px;color:var(--muted)}
 .founder-quote footer b{color:var(--fg);font-size:15px}
+/* reviews: one language at a time, clamped with "read more" */
+html:not([data-lang="en"]) .rev blockquote{display:none}
+html:not([data-lang="en"]) .rev .tr{font:500 17px/1.5 var(--f-display);color:var(--fg);border:0;padding:0;letter-spacing:-.01em}
+.rev blockquote,.rev .tr{display:-webkit-box;-webkit-line-clamp:6;-webkit-box-orient:vertical;overflow:hidden}
+html:not([data-lang="en"]) .rev blockquote{display:none}
+.rev.open blockquote,.rev.open .tr{-webkit-line-clamp:unset;display:block}
+html:not([data-lang="en"]) .rev.open blockquote{display:none}
+.rev .more-rev{all:unset;cursor:pointer;justify-self:start;font-size:13.5px;font-weight:700;color:var(--accent)}
+.rev .more-rev:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.rev-track .rev{grid-template-rows:auto auto auto 1fr auto}
