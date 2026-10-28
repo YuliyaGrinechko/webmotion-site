@@ -838,3 +838,10 @@ a.stat-link:hover span{color:var(--fg)}
   .tile h3{font-size:20px}
   .tile p,.tile h3{padding-right:52px}
 }
+/* mobile: one tile format */
+@media(max-width:759px){
+  .work .tile,.work .tile.h,.work .tile.v,.work .tile.feature,.work .tile.banner,.work .tile.shot-site{aspect-ratio:4/5;min-height:0}
+  .tile .tile-logo{height:30px;margin-bottom:10px}
+}
+.work .tile.extra{animation:tileIn .45s ease both}
+@keyframes tileIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
