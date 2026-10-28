@@ -45,7 +45,7 @@ if (!empty($cfg['tg_token']) && !empty($cfg['tg_chat'])) {
 }
 if (!empty($cfg['mail_to'])) {
     $subject = '=?UTF-8?B?' . base64_encode("Заявка з сайту: $name") . '?=';
-    $headers = "Content-Type: text/plain; charset=utf-8\r\nFrom: WebMotion <noreply@webmotion.com.ua>";
+    $headers = "Content-Type: text/plain; charset=utf-8\r\nFrom: WebMotion <info@webmotion.com.ua>";
     $sent = mail($cfg['mail_to'], $subject, $text, $headers) || $sent;
 }
 
