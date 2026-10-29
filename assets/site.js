@@ -22,10 +22,20 @@ window.__t0=Date.now();
     document.querySelectorAll('[data-set-lang]').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.setLang===l?'true':'false')});
     try{localStorage.setItem('wm-lang',l)}catch(e){}
   }
-  var saved=null;try{saved=localStorage.getItem('wm-lang')}catch(e){}
-  if(!saved){saved=(navigator.language||'uk').toLowerCase().indexOf('uk')===0?'uk':'en'}
-  setLang(saved==='en'?'en':'uk');
-  document.querySelectorAll('[data-set-lang]').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.setLang)})});
+  var fixed=root.getAttribute('data-page-lang');
+  if(fixed){
+    setLang(fixed);
+    document.querySelectorAll('[data-set-lang]').forEach(function(b){b.addEventListener('click',function(){
+      var l=b.dataset.setLang;if(l===fixed)return;
+      var alt=document.querySelector('link[rel=alternate][hreflang="'+l+'"]');
+      if(alt){try{localStorage.setItem('wm-lang',l)}catch(e){}var u=new URL(alt.href);location.href=u.pathname+location.hash}
+    })});
+  }else{
+    var saved=null;try{saved=localStorage.getItem('wm-lang')}catch(e){}
+    if(!saved){saved=(navigator.language||'uk').toLowerCase().indexOf('uk')===0?'uk':'en'}
+    setLang(saved==='en'?'en':'uk');
+    document.querySelectorAll('[data-set-lang]').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.setLang)})});
+  }
   var bf=document.getElementById('brief');if(bf)bf.addEventListener('submit',function(e){
     e.preventDefault();var ok=true;
     ['f-name','f-contact'].forEach(function(id){var el=document.getElementById(id);if(!el.value.trim()){el.style.borderColor='var(--accent)';ok=false}else{el.style.borderColor=''}});
@@ -137,7 +147,7 @@ window.__t0=Date.now();
   var box=b.parentNode,n=b.querySelector('[data-more-n]'),extra=g.querySelectorAll('.tile.extra');
   var labels={uk:['Показати всі роботи','Згорнути'],en:['Show all work','Show less']};
   function sync(){var open=!g.classList.contains('collapsed');b.setAttribute('aria-expanded',open?'true':'false');
-    var sp=b.querySelectorAll('span[lang]');sp[0].textContent=labels.uk[open?1:0];sp[1].textContent=labels.en[open?1:0];n.textContent=open?'':'+'+extra.length}
+    b.querySelectorAll('span[lang]').forEach(function(s){var L=labels[s.getAttribute('lang')]||labels.uk;s.textContent=L[open?1:0]});n.textContent=open?'':'+'+extra.length}
   b.addEventListener('click',function(){var was=!g.classList.contains('collapsed');g.classList.toggle('collapsed');sync();
     if(!was){var first=g.querySelector('.tile.extra');if(first)first.scrollIntoView({behavior:'smooth',block:'start'})}else{box.scrollIntoView({behavior:'smooth',block:'end'})}});
   document.querySelectorAll('[data-filter]').forEach(function(f){f.addEventListener('click',function(){
