@@ -5,11 +5,28 @@ the other language's elements so each URL is a clean single-language page that
 search engines can index, and adds hreflang/canonical links.
 Usage: python .github/build.py <src_dir> <out_dir>
 """
-import glob, html, os, re, shutil, sys
+import glob, html, json, os, re, shutil, sys
 from bs4 import BeautifulSoup
 
 SRC, OUT = sys.argv[1], sys.argv[2]
 BASE = 'https://webmotion.com.ua/'
+CFG = json.load(open(os.path.join(SRC, 'analytics.json'))) if os.path.exists(os.path.join(SRC, 'analytics.json')) else {}
+
+def tracking_head():
+    out = ''
+    if CFG.get('google_site_verification'):
+        out += f'<meta name="google-site-verification" content="{CFG["google_site_verification"]}">'
+    if CFG.get('ga4'):
+        g = CFG['ga4']
+        out += (f'<script async src="https://www.googletagmanager.com/gtag/js?id={g}"></script>'
+                f"<script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments)}}gtag('js',new Date());gtag('config','{g}');</script>")
+    if CFG.get('meta_pixel'):
+        p = CFG['meta_pixel']
+        out += ("<script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};"
+                "if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;"
+                "s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');"
+                f"fbq('init','{p}');fbq('track','PageView');</script>")
+    return out
 EN_TITLES = {
     'index.html': 'WebMotion — Websites and AI Video Ads | Ukraine-based agency',
     'video.html': 'AI Video Ads: UGC, Meta Ads, AI Avatars · WebMotion',
@@ -70,6 +87,8 @@ def build(rel, lang):
     for hl, l in (('x-default', 'uk'), ('en', 'en'), ('uk', 'uk')):
         anchor.insert_after(soup.new_tag('link', rel='alternate', hreflang=hl, href=url(rel, l)))
     out = str(soup)
+    tr = tracking_head()
+    if tr: out = out.replace('</head>', tr + '</head>', 1)
     if lang == 'en':
         # assets live at the site root: add one ../ to asset references
         out = re.sub(r'((?:src|href|poster|action)=")((?:\.\./)*)(assets/|favicon\.ico|send\.php)', r'\1../\2\3', out)
@@ -80,7 +99,7 @@ def build(rel, lang):
     return url(rel, lang), 'noindex' in out
 
 shutil.rmtree(OUT, ignore_errors=True)
-shutil.copytree(SRC, OUT, ignore=shutil.ignore_patterns('.git', '.github', 'README.md', '*.html'))
+shutil.copytree(SRC, OUT, ignore=shutil.ignore_patterns('.git', '.github', 'README.md', '*.html', 'analytics.json'))
 urls = []
 for rel in pages():
     for lang in ('uk', 'en'):

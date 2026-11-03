@@ -45,7 +45,7 @@ window.__t0=Date.now();
     fd.append('t',String(window.__t0||0));fd.append('page',location.href);
     btn.disabled=true;okB.hidden=true;errB.hidden=true;
     fetch(bf.action,{method:'POST',body:fd}).then(function(r){return r.json()}).then(function(d){
-      if(d&&d.ok){okB.hidden=false;bf.reset();bf.querySelectorAll('input,textarea,select,button[type=submit]').forEach(function(e){if(e.type!=='submit')e.blur()})}else{errB.hidden=false}
+      if(d&&d.ok){okB.hidden=false;try{if(window.gtag)gtag('event','generate_lead',{form:'brief'});if(window.fbq)fbq('track','Lead')}catch(e){}bf.reset();bf.querySelectorAll('input,textarea,select,button[type=submit]').forEach(function(e){if(e.type!=='submit')e.blur()})}else{errB.hidden=false}
     }).catch(function(){errB.hidden=false}).finally(function(){btn.disabled=false});
   });
 })();
