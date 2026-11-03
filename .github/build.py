@@ -10,6 +10,7 @@ from bs4 import BeautifulSoup
 
 SRC, OUT = sys.argv[1], sys.argv[2]
 BASE = 'https://webmotion.com.ua/'
+SEO = json.load(open(os.path.join(SRC, 'seo.json'), encoding='utf-8')) if os.path.exists(os.path.join(SRC, 'seo.json')) else {}
 CFG = json.load(open(os.path.join(SRC, 'analytics.json'))) if os.path.exists(os.path.join(SRC, 'analytics.json')) else {}
 
 def tracking_head():
@@ -65,7 +66,13 @@ def build(rel, lang):
     for o in soup.select('option[data-uk]'):
         o.string = o.get('data-' + lang) or o.string
     head = soup.head
-    if lang == 'en':
+    seo = SEO.get(rel, {}).get(lang)
+    if seo:
+        head.title.string = seo[0]
+        for sel, val in ((('meta', {'name': 'description'}), seo[1]), (('meta', {'property': 'og:title'}), seo[0]), (('meta', {'property': 'og:description'}), seo[1])):
+            m = head.find(sel[0], attrs=sel[1])
+            if m: m['content'] = val
+    if lang == 'en' and not seo:
         t = EN_TITLES.get(rel)
         if t: head.title.string = t
         d = EN_DESC.get(rel) or first_text(soup, '.lead', 'en')
@@ -74,6 +81,7 @@ def build(rel, lang):
         for prop, val in (('og:title', head.title.string), ('og:description', d)):
             m = head.find('meta', attrs={'property': prop})
             if m and val: m['content'] = val
+    if lang == 'en':
         m = head.find('meta', attrs={'property': 'og:locale'})
         if m: m['content'] = 'en_US'
         m = head.find('meta', attrs={'property': 'og:locale:alternate'})
@@ -99,7 +107,7 @@ def build(rel, lang):
     return url(rel, lang), 'noindex' in out
 
 shutil.rmtree(OUT, ignore_errors=True)
-shutil.copytree(SRC, OUT, ignore=shutil.ignore_patterns('.git', '.github', 'README.md', '*.html', 'analytics.json'))
+shutil.copytree(SRC, OUT, ignore=shutil.ignore_patterns('.git', '.github', 'README.md', '*.html', 'analytics.json', 'seo.json'))
 urls = []
 for rel in pages():
     for lang in ('uk', 'en'):
