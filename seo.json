@@ -218,5 +218,15 @@
    "OpenCart Online Store Front-End Development | WebMotion",
    "Green Shop case: front-end for a frozen food online store on OpenCart. Catalogue, product page, cart and delivery. Ongoing since 2022."
   ]
+ },
+ "platform.html": {
+  "uk": [
+   "Платформа для онлайн-курсів без підписки | WebMotion",
+   "Власна платформа для онлайн-курсу: кабінет учня, прогрес перегляду, потоки, дедлайни, домашні роботи, оплата з автоматичним доступом. Без щомісячної підписки."
+  ],
+  "en": [
+   "Custom Online Course Platform, No Subscription | WebMotion",
+   "Your own online course platform: student area, watch progress, cohorts, deadlines, assignments, payments with automatic access. No monthly subscription."
+  ]
  }
 }

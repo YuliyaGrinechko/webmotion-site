@@ -40,7 +40,7 @@ EN_DESC = {
 }
 
 def pages():
-    for f in ['index.html', 'video.html', 'web.html'] + sorted(glob.glob(os.path.join(SRC, 'cases', '*.html'))):
+    for f in ['index.html', 'video.html', 'web.html', 'platform.html'] + sorted(glob.glob(os.path.join(SRC, 'cases', '*.html'))):
         yield os.path.relpath(os.path.join(SRC, f) if not f.startswith(SRC) else f, SRC)
 
 def url(rel, lang):
