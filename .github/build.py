@@ -11,6 +11,8 @@ from bs4 import BeautifulSoup
 SRC, OUT = sys.argv[1], sys.argv[2]
 BASE = 'https://webmotion.com.ua/'
 SEO = json.load(open(os.path.join(SRC, 'seo.json'), encoding='utf-8')) if os.path.exists(os.path.join(SRC, 'seo.json')) else {}
+import hashlib
+ASSET_V = hashlib.md5(open(os.path.join(SRC,'assets','site.css'),'rb').read()+open(os.path.join(SRC,'assets','site.js'),'rb').read()).hexdigest()[:8]
 CFG = json.load(open(os.path.join(SRC, 'analytics.json'))) if os.path.exists(os.path.join(SRC, 'analytics.json')) else {}
 
 def tracking_head():
@@ -95,6 +97,7 @@ def build(rel, lang):
     for hl, l in (('x-default', 'uk'), ('en', 'en'), ('uk', 'uk')):
         anchor.insert_after(soup.new_tag('link', rel='alternate', hreflang=hl, href=url(rel, l)))
     out = str(soup)
+    out = re.sub(r'(assets/site\.(?:css|js))(\?v=[^"]*)?"', r'\1?v=' + ASSET_V + '"', out)
     tr = tracking_head()
     if tr: out = out.replace('</head>', tr + '</head>', 1)
     if lang == 'en':
