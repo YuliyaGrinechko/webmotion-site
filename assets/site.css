@@ -872,3 +872,4 @@ html:not([data-lang="en"]) .rev.open blockquote{display:none}
 .rev .more-rev:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
 .rev-track .rev{grid-template-rows:auto auto auto 1fr auto}
 .shot-slot{aspect-ratio:16/10;display:grid;place-items:center;padding:24px;text-align:center;background:var(--surface-2)}
+.browser .shot-img{display:block;width:100%;height:auto}
